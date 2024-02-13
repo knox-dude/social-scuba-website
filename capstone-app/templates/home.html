@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="row">
+
+    <aside class="col-lg-3 col-md-4 col-sm-12 my-2" id="home-aside">
+      <div class="card user-card">
+        <div>
+          <div class="image-wrapper">
+            <img src="{{ g.user.header_image_url }}" alt="" class="card-hero">
+          </div> 
+          <a href="/users/{{ g.user.id }}" class="card-link">
+            <img src="{{ g.user.image_url }}"
+                 alt="Image for {{ g.user.username }}"
+                 class="card-image">
+            <p>{{ g.user.username }}</p>
+          </a>
+          <ul class="user-stats nav nav-pills">
+            <li class="stat">
+              <p class="small">Dives</p>
+              <h4>
+                <a href="/users/{{ g.user.id }}">{{ g.user.dives | length }}</a>
+              </h4>
+            </li>
+            <li class="stat">
+              <p class="small">Buddies</p>
+              <h4>
+                <a href="/users/{{ g.user.id }}/buddies">{{ g.user.buddies | length }}</a>
+              </h4>
+            </li>
+            <li class="stat">
+              <p class="small">Added You</p>
+              <h4>
+                <a href="/users/{{ g.user.id }}/buddies-to">{{ g.user.buddies_to | length }}</a>
+              </h4>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <div class="col-lg-6 col-md-8 col-sm-12 my-2">
+      <div class="timeline-section rounded p-3" style="background-color: white;">
+        <ul class="list-group" id="dives">
+          {% for dive in dives %}
+            <li class="list-group-item">
+              <a href="/dives/{{ dive.id }}" class="dive-link"></a>
+              <a href="/users/{{ dive.diver.id }}">
+                <img src="{{ dive.diver.image_url }}" alt="" class="timeline-image">
+              </a>
+              <div class="dives-area">
+                <a href="/users/{{ dive.user_id }}">{{ dive.diver.username }}</a>
+                <span class="text-muted">{{ dive.date }}</span>
+                <p>{{dive.diver.username}}'s dive {{dive.dive_no}}: {{ dive.divesite.name }}</p>
+                <p class="mb-0 text-secondary">{{dive.comments}}</p>
+              </div>
+            </li>
+          {% endfor %}
+          {% if (dives | length == 0) %}
+          <div class="no-dives-message">
+            <p class="text-muted text-center">No dives to show - add buddies and log dives to populate your page!</p>
+            <div class="row d-flex justify-content-between">
+              <div class="col-6 d-flex justify-content-center">
+                <a href="/divesites/map" class="btn btn-primary">Log a Dive</a>
+              </div>
+              <div class="col-6 d-flex justify-content-center">
+                <a href="/search?category=users" class="btn btn-secondary">Add a Buddy</a>
+              </div>
+            </div>
+
+        </div>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-sm-12 col-md-12 my-2">
+      {%include 'users/leaderboard.html'%}
+    </div>
+  </div>
+{% endblock %}

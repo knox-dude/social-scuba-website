@@ -1,0 +1,19 @@
+<div class="inline-paragraph">
+  <p>Dove </p>
+  {% if dive.max_depth %}
+    <p>down {{dive.max_depth | round(2)}} feet </p>
+  {% endif %}
+  <p>at <a href="/divesites/{{dive.divesite.id}}">{{dive.divesite.name}}</a></p>
+  {% if dive.buddy_id %}
+    <p> with <a href="/users/{{dive.buddy.id}}">{{dive.buddy.username}}</a></p>
+  {% endif %}
+  <br>
+  {% if (dive.get_divetypes() | length) > 0 %}
+    <p class="text-muted">
+      Specialties:
+      {%for divetype in dive.get_divetypes()%}
+        <i class="fas fa-star"></i>{{divetype}}
+      {%endfor%}
+    </p>
+  {%endif%}
+</div>

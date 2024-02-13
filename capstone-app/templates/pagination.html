@@ -1,0 +1,27 @@
+<div class="row my-2 py-2">
+  <div class="col-12 d-flex justify-content-center">
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        {% if pages.has_prev %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ pages.prev_num }}&q={{ search }}&category={{ category }}">Previous</a>
+          </li>
+        {% endif %}
+        {% for page_num in pages.iter_pages() %}
+          {% if page_num %}
+            <li class="page-item {% if page_num == pages.page %}active{% endif %}">
+              <a class="page-link" href="?page={{ page_num }}&q={{ search }}&category={{ category }}">{{ page_num }}</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">...</span></li>
+          {% endif %}
+        {% endfor %}
+        {% if pages.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ pages.next_num }}&q={{ search }}&category={{ category }}">Next</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</div>

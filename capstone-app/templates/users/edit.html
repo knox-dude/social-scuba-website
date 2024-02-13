@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="row justify-content-md-center">
+    <div class="col-md-4">
+      <h2 class="join-message">Edit Your Profile.</h2>
+      <form method="POST" id="user_form">
+        {{ form.hidden_tag() }}
+
+        {% for field in form if field.widget.input_type != 'hidden' and field.name != 'password' %}
+        <div class="form-group row">
+          <label for="{{ field.id }}" class="col-md-5 col-form-label">{{ field.label.text }}</label>
+          <div class="col-md-7">
+            {% for error in field.errors %}
+              <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+            {{ field(class="form-control", id=field.id) }}
+          </div>
+        </div>
+        {% endfor %}
+
+        <p>To confirm changes, enter your password:</p>
+        {% if form.password.errors %}
+          {% for error in form.password.errors %}
+            <span class="text-danger">
+            {{ error }}
+          </span>
+          {% endfor %}
+        {% endif %}
+        {{ form.password(placeholder="Enter your password to confirm", class="form-control") }}
+
+        <div class="edit-btn-area">
+          <button class="btn btn-success">Edit this user!</button>
+          <a href="/users/{{ g.user.id }}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

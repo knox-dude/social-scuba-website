@@ -1,0 +1,40 @@
+{% extends 'users/detail.html' %}
+{% block user_details %}
+  <div class="col-6">
+    <div class="row">
+
+      {% for buddy in user.buddies %}
+
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="card user-card">
+            <div class="card-inner">
+              <div class="image-wrapper">
+                <img src="{{ buddy.header_image_url }}" alt="" class="card-hero">
+              </div>
+              <div class="card-contents">
+                <a href="/users/{{ buddy.id }}" class="card-link">
+                  <img src="{{ buddy.image_url }}" alt="Image for {{ buddy.username }}" class="card-image">
+                  <p>@{{ buddy.username }}</p>
+                </a>
+                {% if buddy in g.user.buddies %}
+                  <form method="POST"
+                        action="/users/remove-buddy/{{ buddy.id }}">
+                    <button class="btn btn-primary btn-sm">Remove Buddy</button>
+                  </form>
+                {% else %}
+                  <form method="POST" action="/users/add-buddy/{{ buddy.id }}">
+                    <button class="btn btn-outline-primary btn-sm">Add Buddy</button>
+                  </form>
+                {% endif %}
+
+              </div>
+              <p class="card-bio">{{buddy.bio}}</p>
+            </div>
+          </div>
+        </div>
+
+      {% endfor %}
+
+    </div>
+  </div>
+{% endblock %}

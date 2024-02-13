@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div id="warbler-hero" class="full-width" style="background-image: url('{{user.header_image_url}}')">
+  
+</div>
+<img src="{{ user.image_url }}" alt="Image for {{ user.username }}" id="profile-avatar">
+<div class="row full-width">
+  <div class="container">
+    <div class="row justify-content-end">
+      <div class="col-5 justify-content-center d-flex">
+        <ul class="user-stats nav nav-pills">
+          <li class="stat">
+            <p class="small">Dives</p>
+            <h4>
+              <a href="/users/{{ user.id }}">{{ user.dives | length }}</a>
+            </h4>
+          </li>
+          <li class="stat">
+            <p class="small">Buddies</p>
+            <h4>
+              <a href="/users/{{ user.id }}/buddies">{{ user.buddies | length }}</a>
+            </h4>
+          </li>
+          <li class="stat">
+            <p class="small">Added @{{user.username}}</p>
+            <h4>
+              <a href="/users/{{ user.id }}/buddies-to">{{ user.buddies_to | length }}</a>
+            </h4>
+          </li>
+        </ul>
+      </div>
+      <div class="col-4 justify-content-center d-flex">
+        <ul class="user-stats nav nav-pills">
+          
+            {% if g.user.id == user.id %}
+            <li class="stat">
+              <a href="/users/profile" class="btn btn-outline-secondary">Edit Profile</a>
+            </li>
+            <li class="stat">
+              <form method="POST" action="/users/delete" class="form-inline">
+                <button class="btn btn-outline-danger ml-2">Delete Profile</button>
+              </form>
+            </li>
+            {% elif g.user %}
+            {% if g.user.is_buddies(user) %}
+            <li class="stat">
+              <form method="POST" action="/users/remove-buddy/{{ user.id }}">
+                <button class="btn btn-primary">Remove Buddy</button>
+              </form>
+            </li>
+            {% else %}
+            <li class="stat">
+              <form method="POST" action="/users/add-buddy/{{ user.id }}">
+                <button class="btn btn-outline-primary">Add Buddy</button>
+              </form>
+            </li>
+            {% endif %}
+            {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-3">
+    <h4 id="sidebar-username">{{ user.username }}</h4>
+    <p>{{user.bio}}</p>
+    <h3 class="h3">Dive Stats</h3>
+    <p class="user-location"> Max Depth: {{g.user.get_max_depth()}} ft.</p>
+    <p class="user-location"> Max Bottom Time: {{g.user.get_max_bottom_time()}} min.</p>
+    <p class="user-location"> Dove in: {{g.user.get_unique_country_count()}} different countries across {{g.user.get_unique_continent_count()}} continents</p>
+
+  </div>
+
+  {% block user_details %}
+  {% endblock %}
+
+  <div class="col-3">
+    {% include 'users/leaderboard.html' %}
+  </div>
+
+
+</div>
+
+{% endblock %}

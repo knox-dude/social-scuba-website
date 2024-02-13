@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="bg"></div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <ul class="list-group no-hover" id="dives">
+        <li class="list-group-item no-border">
+          <a href="{{ url_for('users_show', user_id=dive.diver.id) }}">
+            <img src="{{ dive.diver.image_url }}" alt="" class="timeline-image">
+          </a>
+          <div class="dive-area">
+            <div class="dive-heading d-flex justify-content-between">
+              <div>
+                <a href="/users/{{ dive.diver.id }}">@{{ dive.diver.username }}</a>
+                <span class="text-muted">{{ dive.date }}</span>
+              </div>
+              {% if g.user %}
+                {% if g.user.id == dive.diver.id %}
+                  <div>
+                    <form method="POST" action="/dives/{{ dive.id }}/edit" class="d-inline">
+                      <button class="btn btn-outline-warning">Edit</button>
+                    </form>
+
+                    <form method="POST" action="/dives/{{ dive.id }}/delete" class="d-inline">
+                      <button class="btn btn-outline-danger">Delete</button>
+                    </form>
+                  </div>
+                {% elif dive.diver in g.user.buddies %}
+                  <form method="POST" action="/users/remove-buddy/{{ dive.diver.id }}" class="d-inline">
+                    <button class="btn btn-primary">Remove Buddy</button>
+                  </form>
+                {% else %}
+                  <form method="POST" action="/users/add-buddy/{{ dive.diver.id }}" class="d-inline">
+                    <button class="btn btn-outline-primary btn-sm">Add Buddy</button>
+                  </form>
+                {% endif %}
+              {% endif %}
+            </div>
+              {%include 'dives/dive_text.html'%}
+            <br>
+            <div>{{dive.comments}}</div>
+          </div>
+        </li>
+        <li class="list-group-item no-border">
+          <div class="container">
+            <img src="{{static_map}}" alt="Map centered on the divesite" class="img-fluid">
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+{% endblock %}

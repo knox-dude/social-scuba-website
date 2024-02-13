@@ -1,0 +1,13 @@
+<div class="card my-1">
+  <div class="row no-gutters align-items-center m-1">
+    <div class="col-3">
+      <img src="{{ user.image_url }}" class="card-img img-responsive" alt="{{ user.username }}">
+    </div>
+    <div class="col-5">
+      <h5 class="card-title mb-0"><a href="{{url_for('users_show', user_id=user.id)}}">{{ user.username }}</a></h5>
+    </div>
+    <div class="col-4">
+      <h6 class="card-title mb-0 text-muted">{{ score }} {{ units }}</h6>
+    </div>
+  </div>
+</div>

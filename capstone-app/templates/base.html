@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Social Scuba</title>
+
+  <link rel="stylesheet"
+        href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
+  <script src="https://unpkg.com/jquery"></script>
+  <script src="https://unpkg.com/popper"></script>
+  <script src="https://unpkg.com/bootstrap"></script>
+
+  <link rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+  <link rel="stylesheet" href="/static/stylesheets/style.css">
+  <link rel="shortcut icon" href="/static/favicon.ico">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJZJ9EQP15"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-CJZJ9EQP15');
+  </script>
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+<nav class="navbar navbar-expand mb-4">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand">
+        <img src="/static/images/social-scuba-logo.png" alt="logo">
+        <span>Social Scuba</span>
+      </a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      {% if request.endpoint != None %}
+      <li class="nav-item">
+        <form class="navbar-form navbar-right form-inline" action="/search">
+          <input name="q" class="form-control" placeholder="Search Social Scuba" id="search">
+          <div class="input-group-append" id="search-category-container">
+            <select class="form-select" name="category" id="search-category">
+              <option value="divesites">Divesites</option>
+              <option value="users">Users</option>
+            </select>
+          </div>
+          <button class="btn btn-default">
+            <span class="fa fa-search"></span>
+          </button>
+        </form>
+      </li>
+      {% endif %}
+      {% if not g.user %}
+      <li><a href="/signup">Sign up</a></li>
+      <li><a href="/login">Log in</a></li>
+      {% else %}
+      <li>
+        <a href="/users/{{ g.user.id }}">
+          <img src="{{ g.user.image_url }}" alt="{{ g.user.username }}">
+        </a> 
+      </li>
+      <li><a href="/divesites/map">Divesites Map</a></li>
+      <li><a href="/logout">Log out</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+<div class="row">
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+    <div class="mb-4 alert alert-{{ category }} text-center">{{ message }}</div>
+  {% endfor %}
+</div>
+<div class="container">
+
+  {% block content %}
+  {% endblock %}
+
+</div>
+</body>
+</html>

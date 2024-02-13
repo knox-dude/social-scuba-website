@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+  {% if divesites|length == 0 %}
+    <h3>Sorry, no divesites found</h3>
+  {% else %}
+    <div class="row justify-content-end">
+      <div class="col-sm-12">
+        <div class="row">
+
+          {% for divesite in divesites %}
+
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="card user-card">
+                <div class="card-inner">
+                  <div class="divesite-contents">
+                    <a href="/divesites/{{divesite.id}}" class="card-link">
+                      <p>{{ divesite.name }}</p>
+                    </a>
+                  </div>
+                  <div class="container">
+                    <img src="{{divesite.static_map()}}" alt="Map centered on the divesite" class="img-fluid">
+                  </div>
+                    <div class="row mx-1 my-1 text-center">
+                      <div class="col-6">
+                        Dives: {{divesite.dives | length}}
+                      </div>
+                      <div class="col-6">
+                        Rating: {{divesite.average_rating()}}
+                      </div>
+                    </div>
+                    <div class="row mx-2 text-left text-muted">
+                      {% if divesite.country %}Country: {{divesite.country}}{%endif%}
+                    </div>
+                    <div class="row mx-2 text-left text-muted">
+                      {% if divesite.region %}Region: {{divesite.region}}{%endif%}
+                    </div>
+                    <div class="row mx-2 text-left text-muted">
+                      {% if divesite.ocean %}Ocean: {{divesite.ocean}}{%endif%}
+                    </div>
+                </div>
+              </div>
+            </div>
+
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+  {% include 'pagination.html' %}
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'users/detail.html' %}
+{% block user_details %}
+  <div class="col-6">
+    <ul class="list-group" id="dives">
+
+      {% for dive in dives %}
+
+      {%include 'dives/display_list.html'%}
+
+      {% endfor %}
+
+      {% if (dives | length == 0) %}
+      <li class="list-group-item justify-content-center d-flex pt-3">
+        <a href="/divesites/map" class="dive-link"></a>     
+        <div class="dive-area text-center">
+          <h5 class="text-center">Log your first dive now!</h5>
+        </div>
+      </li>
+      {% endif %}
+
+    </ul>
+  </div>
+{% endblock %}

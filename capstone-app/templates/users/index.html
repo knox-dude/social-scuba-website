@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+  {% if users|length == 0 %}
+    <h3>Sorry, no users found</h3>
+  {% else %}
+    <div class="row justify-content-end">
+      <div class="col-sm-12">
+        <div class="row">
+
+          {% for user in users %}
+
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="card user-card">
+                <div class="card-inner">
+                  <div class="image-wrapper">
+                    <img src="{{ user.header_image_url }}" alt="" class="card-hero">
+                  </div>
+                  <div class="row justify-content-between mb-4">
+                    <div class="col-6">
+                      <a href="/users/{{ user.id }}" class="card-link">
+                        <img src="{{ user.image_url }}" alt="Image for {{ user.username }}" class="card-image">
+                        <p>@{{ user.username }}</p>
+                      </a>
+                    </div>
+                    <div class="col-6 justify-content-end d-flex">
+                      {% if g.user %}
+                        {% if g.user.is_buddies(user) %}
+                          <form method="POST"
+                                action="/users/remove-buddy/{{ user.id }}">
+                            <button class="btn btn-primary btn-sm">Remove Buddy</button>
+                          </form>
+                        {% else %}
+                          {% if g.user.id != user.id %}
+                          <form method="POST"
+                                action="/users/add-buddy/{{ user.id }}">
+                            <button class="btn btn-outline-primary btn-sm">Add Buddy</button>
+                          </form>
+                          {% endif %}
+                        {% endif %}
+                      {% endif %}
+  
+                    </div>
+                  </div>
+                  <div class="row m-2 p-2">
+                    {{user.bio}}
+                  </div>
+                  <div class="row mx-2 px-2">
+                    Dives: {{user.get_num_dives()}}
+                  </div>
+                  <div class="row mx-2 px-2">
+                    Max Depth: {{user.get_max_depth()}} feet
+                  </div>
+                  <div class="row mx-2 px-2">
+                    Max Dive Time: {{user.get_max_bottom_time()}} min.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+    {% include 'pagination.html' %}
+  {% endif %}
+{% endblock %}

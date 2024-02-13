@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="text-center">
+    <h2 class="display-2">Divesites</h2>
+</div>
+
+<div id="map"></div>
+
+<div class="row full-width-footer">
+    <div class="container align-middle">
+        <div class="row">
+                <p class="mb-0 text-center">Can't find a divesite? <a href="/divesites/new">Add one here</a></p>
+        </div>
+    </div>
+</div>
+
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+<script src="{{ url_for('static', filename='map.js') }}"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&callback=initMap"></script>
+
+{% endblock %}
+

@@ -1,0 +1,41 @@
+<div>
+  <h4 class="display-5 text-center">Leaderboards</h4>
+  <div class="row">
+    <div class="col-12">
+      <div class="leaderboard-category card">
+        <h4 class="text-center card-header">Number of Dives</h4>
+        <div class="card-body">
+            {% for (score, user, units) in g.user.leaderboard_num_dives() %}
+              {% include 'users/leaderboard_card.html' %}
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="leaderboard-category card">
+        <h4 class="text-center card-header">Deepest Dive</h4>
+        <div class="card-body">
+          {% for (score, user, units) in g.user.leaderboard_max_depth() %}
+            {% include 'users/leaderboard_card.html' %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="leaderboard-category card">
+        <h4 class="text-center card-header">Longest Dive</h4>
+        <div class="card-body">
+          {% for (score, user, units) in g.user.leaderboard_max_bottom_time() %}
+            {% include 'users/leaderboard_card.html' %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

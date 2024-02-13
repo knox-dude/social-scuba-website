@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="row">
+      <aside class="col-sm-3">
+        <div class="timeline-section rounded p-3" style="background-color: white;">
+          <h4>{{divesite.name}}</h4>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <th scope="row">Average Rating</th>
+                <td>{{ divesite.average_rating() }} / 10 <i class="fa fa-star"></i></td>
+              </tr>
+              <tr>
+                <th scope="row">Country</th>
+                <td>{{ divesite.country }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Ocean</th>
+                <td>{{ divesite.ocean }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-center pb-2 my-1">
+            <a href="/divesites/{{divesite.id}}/new" class="btn btn-primary">Add a dive here!</a>
+          </div>
+          {% if divesite.api_id == (g.user.id|string) %}
+            <div class="d-flex justify-content-center py-2 my-1">
+              <form method="POST"
+                    action="/divesites/{{ divesite.id }}/delete">
+                <button class="btn btn-outline-danger">Delete Divesite</button>
+              </form>
+            </div>
+          {% endif %}
+          <div class="d-flex justify-content-center">
+            <img src="{{divesite.static_map(12)}}" alt="Map centered on the divesite" class="img-fluid">
+          </div>
+        </div>
+      </aside>
+      <div class="col-sm-6">
+        <div class="timeline-section rounded p-3" style="background-color: white;">
+          <ul class="list-group" id="dives">
+            {% if not divesite.dives %}
+              <div class="text-center">
+                <p>No dives yet!</p>
+              </div>
+            {% else %}
+              {% for dive in divesite.dives %}
+                {% include 'dives/display_list.html' %}
+              {% endfor %}
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}
