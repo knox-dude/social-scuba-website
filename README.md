@@ -1,4 +1,8 @@
-# How to Run and Install Social Scuba Website
+# The Social Scuba Website
+
+[Check it out now!](https://social-scuba.org)
+
+## Recreating the project:
 
 ## Initial Requirements
 1. Python 3.9
