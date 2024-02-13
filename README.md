@@ -2,16 +2,15 @@
 
 [Check it out now!](https://social-scuba.org)
 
-## Recreating the project:
-
-## Initial Requirements
+## Recreating the project
+### Initial Requirements
 1. Python 3.9
 2. Postgres
 3. A Google Maps API Key (free to signup and use)
 4. A World Scuba Diving Sites API Key (One time payment of $5)
 5. (Optional) A domain name and AWS instance to launch the site
 
-## Retrieving Data
+### Retrieving Data
 
 First, sign up for an account here: [World Scuba Diving Sites API](https://rapidapi.com/jojokcreator/api/world-scuba-diving-sites-api)
 
